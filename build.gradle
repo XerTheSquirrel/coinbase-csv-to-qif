@@ -1,0 +1,25 @@
+apply plugin: 'idea'
+
+// IntelliJ Configuration (because the root project is a bit different)
+idea
+{
+	module
+	{
+		// Use the proper name for this module
+		name = "Coinbase CSV to QIF"
+
+		// Exclude these directories so IntelliJ does not pick these up
+		// in inspections and builds
+		excludeDirs += file(".circleci")
+		excludeDirs += file(".github")
+		excludeDirs += file(".idea")
+		excludeDirs += file(".vscode")
+		excludeDirs += file("config")
+		excludeDirs += file("gradle")
+
+		// IntelliJ's own dependency matrix output (in "out")
+		project.allprojects.each() { Project subProj ->
+			excludeDirs += subProj.projectDir.toPath().resolve("out").toFile()
+		}
+	}
+}
